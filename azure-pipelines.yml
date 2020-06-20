@@ -1,0 +1,49 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+    branches:
+        include:
+         - '*'
+         
+pool: databinding self hosted
+
+steps:
+- task: NuGetToolInstaller@1
+  inputs:
+    versionSpec: 
+    checkLatest: true
+- task: GitVersion@4
+  inputs:
+    updateAssemblyInfo: true
+    preferBundledVersion: false
+  displayName: Run GitVersion task
+- script: echo %Action%%BuildVersion%
+  env:
+    Action: '##vso[build.updatebuildnumber]'
+    BuildVersion: $(GitVersion.SemVer)
+  displayName: Set build version
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    projects: '**/*.sln'
+    configuration: 'release'
+    arguments: '/p:Version=$(GitVersion.NuGetVersionV2);AssemblyVersion=$(GitVersion.MajorMinorPatch)'
+  displayName: Build
+- task: NuGetCommand@2
+  inputs:
+    command: 'push'
+    packagesToPush: '**/*.nupkg;!**/*.symbols.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: '$(InternalNugetFeed)'
+    allowPackageConflicts: true
+  condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), startsWith(variables['Build.SourceBranch'], 'refs/heads/release'), eq(variables['Build.SourceBranch'], 'refs/heads/develop')))
+  displayName: Push to internal feed
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+  displayName: Publish staging directory
