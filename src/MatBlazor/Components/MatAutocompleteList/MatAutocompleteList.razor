@@ -11,7 +11,6 @@
 
 <div class="@WrapperClassMapper.AsString()">
     <MatTextField OnFocus="@OpenPopup"
-                  ValidationDisabled="true"
                   HideClearButton="true"
                   FullWidth="@FullWidth"
                   OnFocusOut="@ClosePopup"
@@ -244,9 +243,6 @@
 
     [Parameter]
     public EventCallback<ItemType> OnItemSelect { get; set; }
-
-    [Parameter]
-    public Func<ItemType, string> StringSelector { get; set; }
 
     protected async Task OnSearchClickAsync()
     {

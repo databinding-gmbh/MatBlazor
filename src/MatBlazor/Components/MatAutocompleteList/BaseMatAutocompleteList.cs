@@ -107,17 +107,15 @@ namespace MatBlazor
         [Parameter]
         public bool HelperTextValidation { get; set; }
         
+        [Parameter]
+        public Func<TItem, string> StringSelector { get; set; }
+
         /// <summary>
         /// ItemTemplate is used to render the elements in the popup if no template is given then the string value of the objects is displayed..
         /// </summary>
         [Parameter]
         public RenderFragment<TItem> ItemTemplate { get; set; }
-
-        /// <summary>
-        /// This function is used to select the string part from the item, used both for filtering and displaying if no ItemTemplate is defined.
-        /// </summary>
-        [Parameter]
-        public Func<TItem, string> CustomStringSelector { get; set; }
+        
 
         /// <summary>The collection which should be rendered and filtered</summary>
         [Parameter]
@@ -226,7 +224,7 @@ namespace MatBlazor
 
         private string ComputeStringValue(TItem obj)
         {
-            Func<TItem, string> customStringSelector = this.CustomStringSelector;
+            Func<TItem, string> customStringSelector = this.StringSelector;
             return (customStringSelector != null ? customStringSelector(obj)?.TrimEnd() : (string)string.Empty);
         }
     }
