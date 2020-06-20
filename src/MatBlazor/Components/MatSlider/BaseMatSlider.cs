@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 
@@ -63,5 +64,11 @@ namespace MatBlazor
 
         [Parameter]
         public bool Disabled { get; set; }
+
+        /// <summary>
+        ///     Specifies the field for which validation messages should be displayed.
+        /// </summary>
+        [Parameter]
+        public Expression<Func<TValue>> For { get; set; }
     }
 }

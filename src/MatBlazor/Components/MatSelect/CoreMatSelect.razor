@@ -3,42 +3,41 @@
 @typeparam TKey
 @inherits BaseCoreMatSelect<TValue, TKey>
 
-<CascadingValue Value="@this">
-
-    <div class="@ClassMapper.AsString()" style="@StyleMapper.AsString()" @ref="Ref" id="@Id" @attributes="@Attributes">
+<CascadingValue Value="@(this)">
+    <div class="@ClassMapper.AsString() @(FieldClass?.Contains("invalid") == true ? "mdc-text-field--invalid mdc-select--invalid" : string.Empty)" style="@StyleMapper.AsString()" @ref="Ref" @attributes="@Attributes">
         <div class="mdc-select__anchor">
 
             @if (!Outlined)
             {
                 <span class="mdc-select__ripple"></span>
             }
-            
-            <input type="text" disabled readonly class="mdc-select__selected-text @FieldClass">
-            
+
+            <input type="text" id="@Id" disabled readonly class="mdc-select__selected-text @FieldClass" aria-describedby="@ValidationMessageId">
+
             @if (!HideDropDownIcon)
             {
                 <i class="mdc-select__dropdown-icon"></i>
             }
 
-            
+
             @if (Outlined)
             {
-                <span class="mdc-notched-outline">
+                <div class="mdc-notched-outline">
                     <span class="mdc-notched-outline__leading"></span>
                     <span class="mdc-notched-outline__notch">
                         @if (Label != null)
                         {
-                            <span id="outlined-select-label" class="mdc-floating-label">@Label</span>
+                            <label for="@Id" id="outlined-select-label" class="mdc-floating-label">@Label</label>
                         }
                     </span>
                     <span class="mdc-notched-outline__trailing"></span>
-                </span>
+                </div>
             }
             else
             {
                 @if (Label != null)
                 {
-                    <span class="mdc-floating-label">@Label</span>
+                    <label for="@Id" class="mdc-floating-label">@Label</label>
                 }
                 <span class="mdc-line-ripple"></span>
 
@@ -55,10 +54,17 @@
                 @GetChildContent()
             </ul>
         </div>
-
     </div>
-    @if (HelperText != null)
-    {
-        <p class="@HelperTextClassMapper.AsString()" aria-hidden="true">@HelperText</p>
-    }
 </CascadingValue>
+@if (HelperText != null && FieldClass?.Contains("invalid") != true)
+{
+    <div class="mdc-text-field-helper-line">
+        <div class="@HelperTextClassMapper.AsString()" aria-hidden="@(!HelperTextPersistent)">@HelperText</div>
+    </div>
+}
+@if (For != null)
+{
+    <div class="mdc-text-field-helper-line">
+        <MatValidationMessage Id="@ValidationMessageId" For="@For" ForId="@Id"/>
+    </div>
+}

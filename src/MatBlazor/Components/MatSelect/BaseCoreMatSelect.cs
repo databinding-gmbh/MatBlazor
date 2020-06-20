@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Web;
@@ -128,7 +129,11 @@ namespace MatBlazor
         [Parameter]
         public bool HideDropDownIcon { get; set; }
 
-
+        /// <summary>
+        ///     Specifies the field for which validation messages should be displayed.
+        /// </summary>
+        [Parameter]
+        public Expression<Func<TValue>> For { get; set; }
 
         [Parameter]
         public EventCallback<MouseEventArgs> IconOnClick { get; set; }

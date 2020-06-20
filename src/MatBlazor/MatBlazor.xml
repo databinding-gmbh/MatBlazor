@@ -121,14 +121,10 @@
             <typeparam name="TItem">Type of element type.</typeparam>
         </member>
         <member name="P:MatBlazor.BaseMatAutocompleteList`1.NumberOfElementsInPopup">
-            <summary>
-            Maximum number of elements displayed in the popup
-            </summary>
+            <summary>Maximum number of elements displayed in the popup</summary>
         </member>
         <member name="P:MatBlazor.BaseMatAutocompleteList`1.Label">
-            <summary>
-            The label of the TextField
-            </summary>
+            <summary>The label of the TextField</summary>
         </member>
         <member name="P:MatBlazor.BaseMatAutocompleteList`1.Icon">
             <summary>
@@ -136,18 +132,11 @@
             </summary>
         </member>
         <member name="P:MatBlazor.BaseMatAutocompleteList`1.StringValue">
-            <summary>
-            The StringValue displayed in the TextField
-            </summary>
+            <summary>The StringValue displayed in the TextField</summary>
         </member>
         <member name="P:MatBlazor.BaseMatAutocompleteList`1.Value">
             <summary>
             The value to be used to pre-select an item from the list
-            </summary>
-        </member>
-        <member name="P:MatBlazor.BaseMatAutocompleteList`1.ValueChanged">
-            <summary>
-            ValueChanged is fired when the value is selected(by clicking on an element in the popup)
             </summary>
         </member>
         <member name="P:MatBlazor.BaseMatAutocompleteList`1.ItemTemplate">
@@ -161,9 +150,7 @@
             </summary>
         </member>
         <member name="P:MatBlazor.BaseMatAutocompleteList`1.Items">
-            <summary>
-            The collection which should be rendered and filtered
-            </summary>
+            <summary>The collection which should be rendered and filtered</summary>
         </member>
         <member name="P:MatBlazor.BaseMatAutocompleteList`1.Outlined">
             <summary>
@@ -189,12 +176,6 @@
             <summary>
             This value indicates if the textfield and the dialog will be or not displayed in the full screen, the default value is false
             </summary>
-        </member>
-        <member name="M:MatBlazor.BaseMatAutocompleteList`1.ClearText(System.EventArgs)">
-            <summary>
-            Clears current value of the autocomplete text
-            </summary>
-            <param name="e"></param>
         </member>
         <member name="P:MatBlazor.BaseMatAutocomplete`2.ItemValueSelector">
             <summary>
@@ -302,6 +283,11 @@
             Material Design Checkboxes for Blazor, allow the user to select multiple options from a set. 
             </summary>
             <typeparam name="TValue">bool, bool?</typeparam>
+        </member>
+        <member name="P:MatBlazor.BaseMatCheckboxInternal`1.For">
+            <summary>
+                Specifies the field for which validation messages should be displayed.
+            </summary>
         </member>
         <member name="T:MatBlazor.BaseMatChip">
             <summary>
@@ -530,17 +516,32 @@
             Selects allow users to select from a single-option menu. It functions as a wrapper around the browser's native select element.
             </summary>
         </member>
+        <member name="P:MatBlazor.BaseCoreMatSelect`2.For">
+            <summary>
+                Specifies the field for which validation messages should be displayed.
+            </summary>
+        </member>
         <member name="T:MatBlazor.BaseMatSlider`1">
             <summary>
             Material Design Slider for Blazor. Sliders let users select from a range of values by moving the slider thumb. 
             </summary>
             <typeparam name="TValue">sbyte, byte, short, ushort, int, uint, long, ulong, char, float, double, decimal, decimal?</typeparam>
         </member>
+        <member name="P:MatBlazor.BaseMatSlider`1.For">
+            <summary>
+                Specifies the field for which validation messages should be displayed.
+            </summary>
+        </member>
         <member name="T:MatBlazor.BaseMatSlideToggle`1">
             <summary>
             Material Design SlideToggle for Blazor. Component for on/off control that can be toggled via clicking or dragging.
             </summary>
             <typeparam name="TValue">bool, bool?</typeparam>
+        </member>
+        <member name="P:MatBlazor.BaseMatSlideToggle`1.For">
+            <summary>
+                Specifies the field for which validation messages should be displayed.
+            </summary>
         </member>
         <member name="T:MatBlazor.BaseMatSnackbar">
             <summary>
@@ -640,6 +641,11 @@
         <member name="T:MatBlazor.BaseMatTabGroup">
             <summary>
             MatTabGroup organize content into separate views where only one view can be visible at a time. Each tab's label is shown in the tab header and the active tab's label is designated with the animated ink bar.
+            </summary>
+        </member>
+        <member name="P:MatBlazor.BaseMatInputTextComponent`1.For">
+            <summary>
+                Specifies the field for which validation messages should be displayed.
             </summary>
         </member>
         <member name="P:MatBlazor.BaseMatInputTextComponent`1.ReadOnly">
@@ -951,6 +957,38 @@
             <summary>
             the new expanded state
             </summary>
+        </member>
+        <member name="T:MatBlazor.MatValidationMessage`1">
+            <summary>
+                Displays a list of validation messages for a specified field within a cascaded <see cref="T:Microsoft.AspNetCore.Components.Forms.EditContext" />.
+            </summary>
+        </member>
+        <member name="M:MatBlazor.MatValidationMessage`1.#ctor">
+            <summary>
+                `
+                Constructs an instance of <see cref="T:Microsoft.AspNetCore.Components.Forms.ValidationMessage`1" />.
+            </summary>
+        </member>
+        <member name="P:MatBlazor.MatValidationMessage`1.AdditionalAttributes">
+            <summary>
+                Gets or sets a collection of additional attributes that will be applied to the created <c>div</c> element.
+            </summary>
+        </member>
+        <member name="P:MatBlazor.MatValidationMessage`1.For">
+            <summary>
+                Specifies the field for which validation messages should be displayed.
+            </summary>
+        </member>
+        <member name="P:MatBlazor.MatValidationMessage`1.ForId">
+            <summary>
+                Id of input field or other for accessibility of validation message
+            </summary>
+        </member>
+        <member name="M:MatBlazor.MatValidationMessage`1.OnParametersSet">
+            <inheritdoc />
+        </member>
+        <member name="M:MatBlazor.MatValidationMessage`1.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder)">
+            <inheritdoc />
         </member>
         <member name="T:MatBlazor.BaseMatVirtualScroll`1">
             <summary>

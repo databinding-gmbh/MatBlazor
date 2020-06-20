@@ -24,3 +24,8 @@
         <div class="mdc-slider__focus-ring"></div>
     </div>
 </div>
+@if (For != null)
+{
+    <br />
+    <MatValidationMessage For="@For" ForId="@Id" />
+}

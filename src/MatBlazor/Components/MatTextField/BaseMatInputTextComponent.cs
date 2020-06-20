@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System;
+using System.Linq.Expressions;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
 namespace MatBlazor
@@ -57,6 +59,12 @@ namespace MatBlazor
 
         [Parameter]
         public bool Disabled { get; set; }
+
+        /// <summary>
+        ///     Specifies the field for which validation messages should be displayed.
+        /// </summary>
+        [Parameter]
+        public Expression<Func<TValue>> For { get; set; }
 
         /// <summary>
         /// When true, it specifies that an input field is read-only.
