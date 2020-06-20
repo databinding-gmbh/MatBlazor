@@ -27,6 +27,7 @@ namespace MatBlazor
         [Parameter]
         public bool ValidationDisabled { get; set; }
 
+        public string ValidationMessageId => $"{Id}-valmsg";
 
         [CascadingParameter]
         EditContext CascadedEditContext { get; set; }
@@ -38,7 +39,7 @@ namespace MatBlazor
         /// @bind-Value="model.PropertyName"
         /// </example>
         [Parameter]
-        public T Value
+        public virtual T Value
         {
             get => _value;
             set

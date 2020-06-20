@@ -30,3 +30,8 @@
         <label for="@Id">@Label@ChildContent</label>
     }
 </div>
+@if (For != null)
+{
+    <br />
+    <MatValidationMessage For="@For" ForId="@Id" />
+}

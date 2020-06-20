@@ -5,7 +5,8 @@
 @using System.ComponentModel.DataAnnotations
 @using System.IO
 @using System.Net.Http.Headers
-<EditForm Model="myModel" OnValidSubmit="Success">
+@using System.Security.Cryptography.X509Certificates
+<EditForm OnValidSubmit="Success" EditContext="@editContext">
     <DataAnnotationsValidator/>
 
     <div class="mat-layout-grid">
@@ -73,47 +74,53 @@
 
             <div class="mat-layout-grid-cell mat-layout-grid-cell-span-4">
                 <p>
-                    <MatTextField Label="Username" @bind-Value="myModel.Username"/>
-                    <ValidationMessage For="@(() => myModel.Username)"/>
+                    <MatTextField Outlined="true" Label="Username" @bind-Value="myModel.Username" For="@(() => myModel.Username)" />
                 </p>
                 <p>
-                    <MatTextField Label="Password" @bind-Value="myModel.Password" Type="password"/>
-                    <ValidationMessage For="@(() => myModel.Password)"/>
+                    <MatTextField Outlined="true" Label="Password" @bind-Value="myModel.Password" Type="password" For="@(() => myModel.Password)" />
                 </p>
                 <p>
-                    <MatTextField Label="MFA" @bind-Value="myModel.MFA"/>
-                    <ValidationMessage For="@(() => myModel.MFA)"/>
+                    <MatTextField Outlined="true" Label="MFA" @bind-Value="myModel.MFA" For="@(() => myModel.MFA)" />
                 </p>
                 <p>
-                    <MatTextField Label="Comment" @bind-Value="myModel.Comment"/>
-                    <ValidationMessage For="@(() => myModel.Comment)"/>
+                    <MatTextField Outlined="true" Label="Comment" @bind-Value="myModel.Comment" For="@(() => myModel.Comment)" />
                 </p>
                 <p>
-                    <MatDatePicker Label="Start Date" @bind-Value="myModel.StartDate"/>
-                    <ValidationMessage For="@(() => myModel.StartDate)"/>
+                    <MatNumericUpDownField Outlined="true" Label="Count" @bind-Value="myModel.Count" For="@(() => myModel.Count)" />
                 </p>
                 <p>
-                    <MatDatePicker Label="eND Date" @bind-Value="myModel.EndDate"/>
-                    <ValidationMessage For="@(() => myModel.EndDate)"/>
+                    <MatAutocompleteList ShowClearButton="true" 
+                                         CustomStringSelector="@(x => x)" 
+                                         Outlined="true" 
+                                         Label="Sex" 
+                                         @bind-Value="myModel.Sex" 
+                                         Items="@SexItems" 
+                                         For="@(() => myModel.Sex)"
+                                         SearchModel="@SearchModel"
+                                         TSearchModel="string"
+                                         ItemType="string"
+                                         TValue="string"
+                                         HasLookup="true" />
                 </p>
                 <p>
-                    <MatSelect Label="Select" @bind-Value="myModel.Sex">
+                    <MatDatePicker Outlined="true" Label="Start Date" @bind-Value="myModel.StartDate" For="@(() => myModel.StartDate)" />
+                </p>
+                <p>
+                    <MatDatePicker Outlined="true" Label="eND Date" @bind-Value="myModel.EndDate" For="@(() => myModel.EndDate)" />
+                </p>
+                <p>
+                    <MatSelect Outlined="true" Label="Select" @bind-Value="myModel.Sex" For="@(() => myModel.Sex)">
                         <MatOptionString Value=""></MatOptionString>
                         <MatOptionString Value="M">M</MatOptionString>
                         <MatOptionString Value="W">W</MatOptionString>
                     </MatSelect>
-                    <ValidationMessage For="@(() => myModel.Sex)"/>
                 </p>
                 <p>
-                    <MatSelectItem Label="SelectItem" @bind-Value="@myModel.Sex" Items="@SexItems"></MatSelectItem>
-                    <ValidationMessage For="@(() => myModel.Sex)"/>
+                    <MatSelectItem Outlined="true" Label="SelectItem" @bind-Value="@myModel.Sex" Items="@SexItems" For="@(() => myModel.Sex)"></MatSelectItem>
                 </p>
                 <p>
-                    <MatSelectValue Label="SelectValue" @bind-Value="@myModel.Sex" Items="@SexItems" ValueSelector="@(v => v)"></MatSelectValue>
-                    <ValidationMessage For="@(() => myModel.Sex)"/>
+                    <MatSelectValue Outlined="true" Label="SelectValue" @bind-Value="@myModel.Sex" Items="@SexItems" ValueSelector="@(v => v)" For="@(() => myModel.Sex)"></MatSelectValue>
                 </p>
-
-
             </div>
 
             <div class="mat-layout-grid-cell mat-layout-grid-cell-span-4">
@@ -130,7 +137,9 @@
 </EditForm>
 
 @code {
+    public string SearchModel { get; set; } = string.Empty;
 
+    private EditContext editContext;
 
     class SexDef
     {
@@ -189,6 +198,9 @@
         public string Comment { get; set; }
 
         [Required]
+        public double? Count { get; set; }
+
+        [Required]
         [CustomValidation(typeof(LoginModel), nameof(ValidateMFA))]
         public string MFA { get; set; }
 
@@ -207,6 +219,24 @@
         }
     }
 
+
+    protected override Task OnInitializedAsync()
+    {
+        editContext = new EditContext(myModel);
+        editContext.OnFieldChanged += HandleFieldChanged;
+        return base.OnInitializedAsync();
+    }
+
+    private void HandleFieldChanged(object sender, FieldChangedEventArgs e)
+    {
+        editContext.Validate();
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        editContext.OnFieldChanged -= HandleFieldChanged;
+    }
 }
 
 </Content>

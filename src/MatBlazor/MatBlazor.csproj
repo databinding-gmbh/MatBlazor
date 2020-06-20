@@ -30,6 +30,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Components\MatLookupField\MatLookupField.razor2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Components\MatLookupField\MatLookupField.razor2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
 

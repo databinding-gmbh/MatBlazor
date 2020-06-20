@@ -54,6 +54,8 @@ namespace MatBlazor
 
         public override int ParseFromString(string v, string format)
         {
+            if (string.IsNullOrEmpty(v))
+                return 0;
             return int.Parse(v, NumberStyles.Any);
         }
 

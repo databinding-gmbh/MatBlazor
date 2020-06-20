@@ -71,5 +71,3 @@ window.matBlazor = {
   matVirtualScroll,
   utils,
 };
-
-

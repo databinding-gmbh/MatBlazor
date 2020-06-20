@@ -22,7 +22,9 @@ export class MatSelect {
   constructor(ref, component, value) {
 
     this.select = new MDCSelect(ref);
-
+    this.select.foundation_.styleValidity_ = function() {
+      // Nothing to do
+    };
 
     // var c = this.select;
     //

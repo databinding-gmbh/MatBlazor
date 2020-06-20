@@ -1,0 +1,241 @@
+﻿@namespace MatBlazor
+@using System.Linq.Expressions
+@using Microsoft.AspNetCore.Components.Forms
+@typeparam TItem
+@typeparam TSearchModel
+@typeparam TValue
+
+<MatAutocompleteList Id="@Id"
+                     @bind-Value=@Value
+                     Label="@Label"
+                     Icon="search"
+                     IconOnClick="@OnSearchIconClick"
+                     Outlined="true"
+                     ItemType="TItem"
+                     Items="@Suggestions"
+                     ShowClearButton="true"
+                     CustomStringSelector="@StringSelector"
+                     For="@For" />
+<MatDialog @bind-IsOpen="@IsOpen" Class="lookup-dialog">
+    <MatDialogContent>
+        <div class="col s12">
+            <h5>@Label</h5>
+        </div>
+        <EditForm Model="@SearchModel" OnValidSubmit="@(async () => await OnSearchClickAsync())" class="lookup-search">
+            @SearchSection
+            <div class="col s12">
+                <MatButton OnClick="@(async () => await OnSearchClick.InvokeAsync(null))"
+                           Raised="true"
+                           Class="right">
+                    Suchen
+                </MatButton>
+            </div>
+        </EditForm>
+        <div class="row">
+            @if (SearchList != null)
+            {
+                <div class="col s12">
+                    <MatList SingleSelection="true">
+                        @foreach (var item in SearchList)
+                        {
+                            <MatListItem OnClick="@(async() => await ItemClickAsync(item))">
+                                <MatListItemText>
+                                    <p>@ComputeStringValue(item)</p>
+                                </MatListItemText>
+                            </MatListItem>
+                        }
+                        @if (IsShowNew)
+                        {
+                            <MatListItem OnClick="@(async() => await ItemClickAsync(New))">
+                                <MatListItemText>
+                                    <p>@NewItemSection (Auswählen um neues Objekt erstellen)</p>
+                                </MatListItemText>
+                            </MatListItem>
+                        }
+                    </MatList>
+                </div>
+            }
+        </div>
+    </MatDialogContent>
+    <MatDialogActions>
+        <MatButton OnClick="@(e => { IsOpen = false; })"
+                   Type="button">
+            Abbrechen
+        </MatButton>
+    </MatDialogActions>
+</MatDialog>
+
+@code {
+    [Parameter]
+    public string Id { get; set; } = IdGeneratorHelper.Generate("matBlazor_id_");
+
+    [Parameter]
+    public RenderFragment NewItemSection { get; set; }
+
+    [Parameter]
+    public bool IsShowNew { get; set; }
+
+    private TItem _new;
+
+    [Parameter]
+    public TItem New
+    {
+        get => _new;
+        set
+        {
+            if (EqualityComparer<TItem>.Default.Equals(_new, value)) return;
+            _new = value;
+            NewChanged.InvokeAsync(value);
+        }
+    }
+
+    [Parameter]
+    public EventCallback<TItem> NewChanged { get; set; }
+
+    private bool _isOpen;
+
+    [Parameter]
+    public bool IsOpen
+    {
+        get => _isOpen;
+        set
+        {
+            if (_isOpen == value) return;
+            _isOpen = value;
+            if (OnOpen.HasDelegate)
+            {
+                OnOpen.InvokeAsync(null);
+            }
+            OnSearchClick.InvokeAsync(null);
+            IsOpenChanged.InvokeAsync(_isOpen);
+        }
+    }
+
+    [Parameter]
+    public EventCallback<bool> IsOpenChanged { get; set; }
+
+    [Parameter]
+    public string Label { get; set; }
+
+    private TSearchModel _searchModel = default(TSearchModel);
+
+    [Parameter]
+    public TSearchModel SearchModel
+    {
+        get => _searchModel;
+        set
+        {
+            if (EqualityComparer<TSearchModel>.Default.Equals(_searchModel, value)) return;
+            _searchModel = value;
+            SearchModelChanged.InvokeAsync(value);
+        }
+    }
+
+    [Parameter]
+    public EventCallback<TSearchModel> SearchModelChanged { get; set; }
+
+    private IEnumerable<TItem> _searchList;
+
+    [Parameter]
+    public IEnumerable<TItem> SearchList
+    {
+        get => _searchList;
+        set
+        {
+            if (EqualityComparer<IEnumerable<TItem>>.Default.Equals(_searchList, value)) return;
+            _searchList = value;
+            SearchListChanged.InvokeAsync(value);
+        }
+    }
+
+    [Parameter]
+    public EventCallback<IEnumerable<TItem>> SearchListChanged { get; set; }
+
+    private IList<TItem> _suggestions = new List<TItem>();
+
+    [Parameter]
+    public IList<TItem> Suggestions
+    {
+        get => _suggestions;
+        set
+        {
+            if (EqualityComparer<IList<TItem>>.Default.Equals(_suggestions, value)) return;
+            _suggestions = value;
+            SuggestionsChanged.InvokeAsync(value);
+        }
+    }
+
+    public IList<TItem> ExpandedSuggestions { get; set; } = new List<TItem>();
+
+    [Parameter]
+    public bool DisableLookUp { get; set; }
+
+    [Parameter]
+    public EventCallback<IList<TItem>> SuggestionsChanged { get; set; }
+
+    [Parameter]
+    public RenderFragment SearchSection { get; set; }
+
+    [Parameter]
+    public EventCallback OnSearchClick { get; set; }
+
+    [Parameter]
+    public EventCallback OnOpen { get; set; }
+
+    [Parameter]
+    public EventCallback<TItem> OnItemSelect { get; set; }
+
+    [Parameter]
+    public Func<TItem, string> StringSelector { get; set; }
+
+    [Parameter]
+    public Expression<Func<TItem>> For { get; set; }
+
+    private TItem _value;
+
+    [Parameter]
+    public TItem Value
+    {
+        get
+        {
+            return this._value;
+        }
+        set
+        {
+            if (EqualityComparer<TItem>.Default.Equals(value, this._value)) return;
+            this._value = value;
+            this.ValueChanged.InvokeAsync(this._value);
+        }
+    }
+
+    [Parameter]
+    public EventCallback<TItem> ValueChanged { get; set; }
+
+    protected async Task OnSearchClickAsync()
+    {
+        await OnSearchClick.InvokeAsync(null);
+    }
+
+    protected async Task ItemClickAsync(TItem value)
+    {
+        if (Suggestions.All(x => ComputeStringValue(x) != ComputeStringValue(value)))
+        {
+            Suggestions.Add(value);
+        }
+
+        await OnItemSelect.InvokeAsync(value);
+
+        IsOpen = false;
+    }
+
+    private string ComputeStringValue(TItem obj)
+    {
+        Func<TItem, string> customStringSelector = this.StringSelector;
+        return (customStringSelector != null ? customStringSelector(obj) : (string)string.Empty);
+    }
+
+    protected void OnSearchIconClick(MouseEventArgs args)
+    {
+        IsOpen = true;
+    }
+}

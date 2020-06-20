@@ -15,9 +15,13 @@
   select::-ms-expand {
     display: none;
   }
-
 }
 
 .mdc-select:not(.mdc-select--disabled).mdc-select--focused .mdc-floating-label {
     color: var(--mdc-theme-primary);
+}
+
+.mdc-text-field-helper-line {
+  padding-right: 16px;
+  padding-left: 16px;
 }

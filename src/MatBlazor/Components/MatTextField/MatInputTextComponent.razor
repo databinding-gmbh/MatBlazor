@@ -2,7 +2,7 @@
 @typeparam T
 @inherits BaseMatInputTextComponent<T>
 
-<label class="@ClassMapper.AsString()" style="@StyleMapper.AsString()" @ref="Ref">
+<div class="@ClassMapper.AsString() @(FieldClass?.Contains("invalid") == true ? "mdc-text-field--invalid" : string.Empty)" style="@StyleMapper.AsString()" @ref="Ref">
 
     @if (!Outlined)
     {
@@ -16,11 +16,11 @@
 
     @if (TextArea)
     {
-        <textarea style="@InputStyle" @ref="InputRef"  placeholder="@PlaceHolder" required=@Required class="@InputClassMapper.AsString()" id="@Id" @bind="@CurrentValueAsString" aria-label="@Label" oninput="@OnInput" @onkeydown="@OnKeyDownEvent()" onkeyup=@OnKeyUp onfocusout="@OnFocusOutEvent.Value" onkeypress="@OnKeyPress" onfocus="@OnFocusEvent.Value" disabled=@Disabled readonly="@InputTextReadOnly()" @attributes="Attributes" />
+        <textarea style="@InputStyle" @ref="InputRef" placeholder="@PlaceHolder" required=@Required class="@InputClassMapper.AsString()" id="@Id" @bind="@CurrentValueAsString" aria-label="@Label" oninput="@OnInput" @onkeydown="@OnKeyDownEvent()" onkeyup=@OnKeyUp onfocusout="@OnFocusOutEvent.Value" onkeypress="@OnKeyPress" onfocus="@OnFocusEvent.Value" disabled=@Disabled readonly="@InputTextReadOnly()" @attributes="Attributes" aria-describedby="@ValidationMessageId"/>
     }
     else
     {
-        <input style="@InputStyle" @ref="InputRef" type="@Type" placeholder="@PlaceHolder" required=@Required class="@InputClassMapper.AsString()" id="@Id" @bind="@CurrentValueAsString" aria-label="@Label" oninput="@OnInput" @onkeydown="@OnKeyDownEvent()" onkeyup=@OnKeyUp onfocusout=@OnFocusOutEvent.Value onkeypress="@OnKeyPress" onfocus="@OnFocusEvent.Value" disabled=@Disabled readonly="@InputTextReadOnly()" @attributes="Attributes"/>
+        <input style="@InputStyle" @ref="InputRef" type="@Type" placeholder="@PlaceHolder" required=@Required class="@InputClassMapper.AsString()" id="@Id" @bind="@CurrentValueAsString" aria-label="@Label" oninput="@OnInput" @onkeydown="@OnKeyDownEvent()" onkeyup=@OnKeyUp onfocusout=@OnFocusOutEvent.Value onkeypress="@OnKeyPress" onfocus="@OnFocusEvent.Value" disabled=@Disabled readonly="@InputTextReadOnly()" @attributes="Attributes" aria-describedby="@ValidationMessageId"/>
     }
 
 
@@ -36,7 +36,7 @@
             @if (Label != null)
             {
                 <span class="mdc-notched-outline__notch">
-                    <span class="@LabelClassMapper.AsString()" for="@Id">@Label</span>
+                    <label class="@LabelClassMapper.AsString()" for="@Id">@Label</label>
                 </span>
             }
             <div class="mdc-notched-outline__trailing"></div>
@@ -46,17 +46,23 @@
     {
         if (Label != null)
         {
-            <span class="@LabelClassMapper.AsString()" for="@Id">@Label</span>
+            <label class="@LabelClassMapper.AsString()" for="@Id">@Label</label>
         }
         <span class="mdc-line-ripple"></span>
     }
 
     @BuildRenderTreeChildContent()
 
-</label>
-@if (HelperText != null)
+</div>
+@if (HelperText != null && FieldClass?.Contains("invalid") != true)
 {
     <div class="mdc-text-field-helper-line">
         <div class="@HelperTextClassMapper.AsString()" aria-hidden="@(!HelperTextPersistent)">@HelperText</div>
+    </div>
+}
+@if (For != null)
+{
+    <div class="mdc-text-field-helper-line">
+        <MatValidationMessage Id="@ValidationMessageId" For="@For" ForId="@Id"/>
     </div>
 }
