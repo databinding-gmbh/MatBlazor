@@ -90,6 +90,7 @@ namespace MatBlazor
                 this._value = value;
                 this.ValueChanged.InvokeAsync(this._value);
                 this.ListRef?.SetSelectedIndex(0);
+                EditContext?.NotifyFieldChanged(FieldIdentifier);
             }
         }
 
