@@ -87,10 +87,10 @@ namespace MatBlazor
         {
             foreach (var message in CurrentEditContext.GetValidationMessages(_fieldIdentifier))
             {
-                builder.OpenElement(0, "div");
+                builder.OpenElement(0, "span");
                 builder.AddMultipleAttributes(1, AdditionalAttributes);
                 builder.AddAttribute(2, "id", Id);
-                builder.AddAttribute(2, "class", "mdc-text-field-helper-text mdc-text-field-helper-text--persistent mdc-text-field-helper-text--validation-msg");
+                builder.AddAttribute(2, "class", "field-validation-error mdc-text-field-helper-text mdc-text-field-helper-text--persistent mdc-text-field-helper-text--validation-msg");
                 builder.AddAttribute(2, "data-valmsg-for", ForId);
                 builder.AddContent(3, message);
                 builder.CloseElement();
