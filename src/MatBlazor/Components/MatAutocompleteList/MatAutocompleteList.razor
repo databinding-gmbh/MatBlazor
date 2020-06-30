@@ -82,7 +82,7 @@
         </MatList>
     }
 </div>
-<MatDialog @bind-IsOpen="@IsOpen" Class="lookup-dialog">
+<MatDialog @bind-IsOpen="@IsOpen" Class="lookup-dialog" Id="@($"lookup-{Id}")">
     <MatDialogContent>
         <div class="col s12">
             <h5>@Label</h5>
