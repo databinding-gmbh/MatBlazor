@@ -24,7 +24,7 @@
                   Outlined="@Outlined"
                   Attributes="@Attributes"
                   Id="@Id"
-                  Class="@(FieldClass?.Contains("invalid") == true ? "mdc-text-field--invalid mdc-autocomplete" : "mdc-autocomplete")"
+                  Class="@(FieldClass?.Contains("invalid") == true ? "mdc-text-field--invalid" : string.Empty)"
                   ValueExpression="@(() => StringValue)" />
     @if (HelperText != null && FieldClass?.Contains("invalid") != true)
     {
