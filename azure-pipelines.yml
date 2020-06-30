@@ -19,6 +19,7 @@ steps:
   inputs:
     updateAssemblyInfo: true
     preferBundledVersion: false
+    configFilePath: 'GitVersion.yml'
   displayName: Run GitVersion task
 - script: echo %Action%%BuildVersion%
   env:
