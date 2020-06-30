@@ -106,7 +106,7 @@ namespace MatBlazor
         /// some combination of "modified", "valid", or "invalid", depending on the status of the field.
         /// </summary>
         protected string FieldClass
-            => $"{EditContext?.FieldCssClass(FieldIdentifier)} mdc-autocomplete";
+            => EditContext?.FieldCssClass(FieldIdentifier);
 
         /// <inheritdoc />
         public override Task SetParametersAsync(ParameterView parameters)
