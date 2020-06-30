@@ -41,30 +41,30 @@
     @if (IsShowingClearButton && (IconOnClick.HasDelegate || HasLookup))
     {
         <div class="mat-autocomplete-list-clearbutton mat-autocomplete-list-lookup-clear-button">
-            <MatIconButton Icon="clear" OnClick="@ClearText" />
+            <MatIconButton Id="@($"clear-button-{Id}")" Icon="clear" OnClick="@ClearText" />
         </div>
     }
     @if (IsShowingClearButton && !IconOnClick.HasDelegate && !HasLookup)
     {
         <div class="mat-autocomplete-list-clearbutton">
-            <MatIconButton Icon="clear" OnClick="@ClearText" />
+            <MatIconButton Id="@($"clear-button-{Id}")" Icon="clear" OnClick="@ClearText" />
         </div>
     }
     @if (HasLookup)
     {
         <div class="mat-autocomplete-list-clearbutton">
-            <MatIconButton Icon="search" OnClick="@OnSearchIconClick" />
+            <MatIconButton Id="@($"search-button-{Id}")" Icon="search" OnClick="@OnSearchIconClick" />
         </div>
     }
     @if (IconOnClick.HasDelegate)
     {
         <div class="mat-autocomplete-list-clearbutton">
-            <MatIconButton Icon="@Icon" OnClick="@IconOnClick" />
+            <MatIconButton Id="@($"icon-button-{Id}")" Icon="@Icon" OnClick="@IconOnClick" />
         </div>
     }
     @if (IsOpened)
     {
-        <MatList @ref="ListRef" SingleSelection="true" Class="mat-elevation-z7 custom-autocomplete">
+        <MatList @ref="ListRef" SingleSelection="true" Class="mat-elevation-z7 custom-autocomplete" Id="@($"list-{Id}")">
             @foreach (var elementWrapper in GetFilteredCollection(StringValue))
             {
                 <MatListItem OnMouseDown="@(async() => await OnItemClicked(elementWrapper.Item))">
@@ -100,7 +100,7 @@
             @if (SearchList != null)
             {
                 <div class="col s12">
-                    <MatList SingleSelection="true">
+                    <MatList SingleSelection="true" Id="@($"lookup-list-{Id}")">
                         @foreach (var item in SearchList)
                         {
                             <MatListItem OnClick="@(async() => await ItemClickAsync(item))">
