@@ -15,7 +15,7 @@ steps:
   inputs:
     versionSpec: 
     checkLatest: true
-- task: GitVersion@4
+- task: GitVersion@5
   inputs:
     updateAssemblyInfo: true
     preferBundledVersion: false
