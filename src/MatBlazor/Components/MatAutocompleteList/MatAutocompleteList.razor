@@ -23,8 +23,9 @@
                   OnKeyUp="@OnKeyUp"
                   Outlined="@Outlined"
                   Attributes="@Attributes"
+                  InputClass="mdc-autocomplete"
                   Id="@Id"
-                  Class="@(FieldClassAutompleteList?.Contains("invalid") == true ? "mdc-text-field--invalid" : string.Empty)"
+                  Class="@(FieldClass?.Contains("invalid") == true ? "mdc-text-field--invalid" : string.Empty)"
                   ValueExpression="@(() => StringValue)" />
     @if (HelperText != null && FieldClass?.Contains("invalid") != true)
     {
@@ -244,9 +245,6 @@
 
     [Parameter]
     public EventCallback<ItemType> OnItemSelect { get; set; }
-
-    protected string FieldClassAutompleteList
-        => $"{EditContext?.FieldCssClass(FieldIdentifier)} mdc-autocomplete";
 
     protected async Task OnSearchClickAsync()
     {
