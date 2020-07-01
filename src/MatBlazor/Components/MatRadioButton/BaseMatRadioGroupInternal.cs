@@ -9,6 +9,9 @@ namespace MatBlazor
     /// <typeparam name="TValue">any</typeparam>
     public class BaseMatRadioGroupInternal<TValue> : BaseMatInputComponent<TValue>
     {
+        [Parameter] 
+        public string Label { get; set; }
+
         [Parameter]
         public RenderFragment<TValue> ItemTemplate { get; set; }
 
