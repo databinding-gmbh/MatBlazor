@@ -8,6 +8,7 @@
 @using Microsoft.AspNetCore.Components
 @using Microsoft.AspNetCore.Components.Web
 @using Microsoft.AspNetCore.Components.Forms
+@using System.Timers
 
 <div class="@WrapperClassMapper.AsString()">
     <MatTextField OnFocus="@OpenPopup"
@@ -68,7 +69,7 @@
         <MatList @ref="ListRef" SingleSelection="true" Class="mat-elevation-z7 custom-autocomplete" Id="@($"list-{Id}")">
             @foreach (var elementWrapper in GetFilteredCollection(StringValue))
             {
-                <MatListItem OnMouseDown="@(async() => await OnItemClicked(elementWrapper.Item))">
+                <MatListItem OnMouseDown="@(() => OnItemClicked(elementWrapper.Item))">
                     @if (ItemTemplate != null)
                     {
                         @ItemTemplate(elementWrapper.Item)
@@ -146,13 +147,13 @@
 
     [Parameter]
     public RenderFragment NewItemSection { get; set; }
-    
+
     [Parameter]
     public bool HasLookup { get; set; }
 
     [Parameter]
     public bool IsShowNew { get; set; }
-
+    
     private ItemType _new;
 
     [Parameter]
@@ -274,25 +275,9 @@
         IsOpen = true;
     }
 
-    public bool IsSearching { get; set; }
-
-    protected async Task OnValueChanging(ChangeEventArgs args)
+    protected void OnValueChanging(ChangeEventArgs args)
     {
-        if (!IsSearching)
-        {
-            IsSearching = true;
-
-            this.OnValueChanged(args);
-
-            if (typeof(ItemType) == typeof(string))
-            {
-                Value = (ItemType)args.Value;
-            }
-
-            await Task.Delay(100);
-
-            IsSearching = false;
-        }
+        StringValue = args.Value as string;
     }
 
     protected async Task OnKeyUp(KeyboardEventArgs args)
@@ -304,7 +289,7 @@
         }
     }
 
-    protected async Task OnItemClicked(ItemType selectedObject)
+    protected void OnItemClicked(ItemType selectedObject)
     {
         ItemClicked(selectedObject);
     }

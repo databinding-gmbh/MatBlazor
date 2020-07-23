@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Timers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
@@ -12,6 +13,17 @@ namespace MatBlazor
     /// <typeparam name="TItem">Type of element type.</typeparam>
     public class BaseMatAutocompleteList<TItem> : BaseMatInputComponent<TItem>
     {
+        [Parameter] public int Debounce { get; set; } = 500;
+
+        protected void Search(object sender, ElapsedEventArgs e)
+        {
+            if (OnTextChanged.HasDelegate)
+            {
+                OnTextChanged.InvokeAsync(StringValue);
+            }
+            _debounceTimer.Stop();
+        }
+
         protected ClassMapper WrapperClassMapper = new ClassMapper();
         protected const int DefaultsElementsInPopup = 10;
         private bool isOpened;
@@ -61,6 +73,8 @@ namespace MatBlazor
         [Parameter]
         public string Icon { get; set; }
 
+        protected Timer _debounceTimer;
+
         /// <summary>The StringValue displayed in the TextField</summary>
         [Parameter]
         public string StringValue
@@ -68,10 +82,25 @@ namespace MatBlazor
             get => this.stringValue;
             set
             {
-                if (stringValue == value)
-                    return;
-                this.stringValue = value;
-                this.OnTextChanged.InvokeAsync(value);
+                stringValue = value;
+
+                if (_debounceTimer == null)
+                {
+                    _debounceTimer = new Timer();
+                    _debounceTimer.Interval = Debounce;
+                    _debounceTimer.AutoReset = false;
+                    _debounceTimer.Elapsed += Search;
+                }
+
+                if (value.Length == 0)
+                {
+                    _debounceTimer.Stop();
+                }
+                else
+                {
+                    _debounceTimer.Stop();
+                    _debounceTimer.Start();
+                }
             }
         }
 
@@ -107,7 +136,7 @@ namespace MatBlazor
 
         [Parameter]
         public bool HelperTextValidation { get; set; }
-        
+
         [Parameter]
         public Func<TItem, string> StringSelector { get; set; }
 
@@ -116,7 +145,7 @@ namespace MatBlazor
         /// </summary>
         [Parameter]
         public RenderFragment<TItem> ItemTemplate { get; set; }
-        
+
 
         /// <summary>The collection which should be rendered and filtered</summary>
         [Parameter]
@@ -162,12 +191,6 @@ namespace MatBlazor
         protected void ClosePopup()
         {
             this.IsOpened = false;
-        }
-
-        public void OnValueChanged(ChangeEventArgs ev)
-        {
-            this.StringValue = (string)ev.Value;
-            this.StateHasChanged();
         }
 
         public async void OnKeyDown(KeyboardEventArgs ev)
