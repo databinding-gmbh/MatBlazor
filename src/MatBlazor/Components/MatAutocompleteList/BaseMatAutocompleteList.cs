@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Timers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -13,13 +14,14 @@ namespace MatBlazor
     /// <typeparam name="TItem">Type of element type.</typeparam>
     public class BaseMatAutocompleteList<TItem> : BaseMatInputComponent<TItem>
     {
-        [Parameter] public int Debounce { get; set; } = 500;
+        [Parameter] public int Debounce { get; set; } = 250;
 
-        protected void Search(object sender, ElapsedEventArgs e)
+        protected async void Search(object sender, ElapsedEventArgs e)
         {
-            if (OnTextChanged.HasDelegate)
+            if (SearchMethod != null)
             {
-                OnTextChanged.InvokeAsync(StringValue);
+                Items = (await SearchMethod.Invoke(stringValue)).ToArray();
+                await InvokeAsync(StateHasChanged);
             }
             _debounceTimer.Stop();
         }
@@ -73,6 +75,8 @@ namespace MatBlazor
         [Parameter]
         public string Icon { get; set; }
 
+        [Parameter] public Func<string, Task<IEnumerable<TItem>>> SearchMethod { get; set; }
+
         protected Timer _debounceTimer;
 
         /// <summary>The StringValue displayed in the TextField</summary>
@@ -118,8 +122,7 @@ namespace MatBlazor
                     return;
                 this._value = value;
                 this.ValueChanged.InvokeAsync(this._value);
-                this.ListRef?.SetSelectedIndex(0);
-                EditContext?.NotifyFieldChanged(FieldIdentifier);
+
             }
         }
 
@@ -220,15 +223,8 @@ namespace MatBlazor
         public void ItemClicked(TItem selectedObject)
         {
             this.Value = selectedObject;
-            this.StateHasChanged();
         }
-
-        public void ItemClicked(object selectedObject)
-        {
-            this.Value = (TItem)selectedObject;
-            this.StateHasChanged();
-        }
-
+        
         public void ClearText(MouseEventArgs e)
         {
             this.Value = default;

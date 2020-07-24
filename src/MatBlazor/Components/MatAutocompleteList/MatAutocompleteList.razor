@@ -17,7 +17,6 @@
                   FullWidth="@FullWidth"
                   OnFocusOut="@ClosePopup"
                   Label="@Label"
-                  ValueChanged="OnTextChanged"
                   Value=@StringValue
                   OnInput="@OnValueChanging"
                   OnKeyDown="@OnKeyDown"
@@ -26,8 +25,7 @@
                   Attributes="@Attributes"
                   InputClass="mdc-autocomplete"
                   Id="@Id"
-                  Class="@(FieldClass?.Contains("invalid") == true ? "mdc-text-field--invalid" : string.Empty)"
-                  ValueExpression="@(() => StringValue)" />
+                  Class="@(FieldClass?.Contains("invalid") == true ? "mdc-text-field--invalid" : string.Empty)" />
     @if (HelperText != null && FieldClass?.Contains("invalid") != true)
     {
         <div class="mdc-text-field-helper-line">
@@ -153,7 +151,7 @@
 
     [Parameter]
     public bool IsShowNew { get; set; }
-    
+
     private ItemType _new;
 
     [Parameter]

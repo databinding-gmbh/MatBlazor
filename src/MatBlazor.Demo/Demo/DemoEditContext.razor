@@ -91,17 +91,17 @@
                 </p>
                 <p>
                     <MatAutocompleteList ShowClearButton="true" 
-                                         StringSelector="@(x => x.Nr.ToString())" 
+                                         StringSelector="@(x => x.Value.ToString())" 
                                          Outlined="true" 
                                          Label="Sex" 
+                                         SearchMethod="@Get"
                                          @bind-Value="myModel.MyClass" 
                                          Items="@classes" 
                                          For="@(() => myModel.MyClass)"
                                          SearchModel="@SearchModel"
                                          TSearchModel="MyClass"
                                          ItemType="MyClass"
-                                         TValue="MyClass"
-                                         HasLookup="true" />
+                                         TValue="MyClass" />
                 </p>
                 <p>
                     <MatDatePicker Outlined="true" Label="Start Date" @bind-Value="myModel.StartDate" For="@(() => myModel.StartDate)" />
@@ -159,13 +159,21 @@
         "W"
     };
 
+    private async Task<IEnumerable<MyClass>> Get(string searchText)
+    {
+        return await Task.FromResult(classes2.Where(x => x.Value.Contains(searchText)).ToArray());
+    }
+
     [Inject]
     IJSRuntime JS { get; set; }
 
     async Task Success() =>
         await JS.InvokeAsync<object>("alert", "Successful login!");
 
-    MyClass[] classes = new MyClass[]
+    MyClass[] classes = new MyClass[0];
+
+
+    MyClass[] classes2 = new MyClass[]
     {
         new MyClass
         {
