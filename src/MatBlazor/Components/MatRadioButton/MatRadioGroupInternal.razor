@@ -24,8 +24,6 @@
     @ChildContent
     @if (For != null)
     {
-        <div class="mdc-text-field-helper-line">
-            <MatValidationMessage Id="@ValidationMessageId" For="@For" ForId="@Id"/>
-        </div>
+        <MatValidationMessage Id="@ValidationMessageId" For="@For" ForId="@Id"/>
     }
 </CascadingValue>
