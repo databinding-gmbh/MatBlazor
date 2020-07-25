@@ -114,6 +114,25 @@
                     </MatSelect>
                 </p>
                 <p>
+                    <MatSlideToggle @bind-Value="@myModel.Waiting"
+                                   For="@(() => myModel.Waiting)">
+                    </MatSlideToggle>    
+                </p>
+                <p>
+                    <MatRadioGroup Id="skla"
+                                   @bind-Value="@myModel.Sex"
+                                   TValue="string"
+                                   For="@(() => myModel.Sex)">
+                        @foreach (var item in SexItems)
+                        {
+                            <MatRadioButton Value="@item"
+                                            Label="@item"
+                                            TValue="string">
+                            </MatRadioButton>
+                        }
+                    </MatRadioGroup>    
+                </p>
+                <p>
                     <MatSelectItem Outlined="true" Label="SelectItem" @bind-Value="@myModel.Sex" Items="@SexItems" For="@(() => myModel.Sex)"></MatSelectItem>
                 </p>
                 <p>
@@ -218,6 +237,9 @@
 
         [Required]
         public string Sex { get; set; }
+
+        [Required]
+        public bool? Waiting { get; set; }
 
         [Required]
         public MyClass MyClass { get; set; }

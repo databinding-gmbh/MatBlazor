@@ -1,29 +1,33 @@
 ﻿@namespace MatBlazor
 @typeparam TValue
 @inherits BaseMatRadioGroupInternal<TValue>
-<CascadingValue Value="@this">
-    @if (!string.IsNullOrEmpty(Label))
-    {
-        <label for="@Id">@Label</label>
-    }
-    <input type="hidden" class="radio-buttons" Id="@Id" />
-    @if (Items != null)
-    {
-        foreach (var item in Items)
+<div class="@(FieldClass?.Contains("invalid") == true ? "mdc-text-field--invalid" : string.Empty)" style="@StyleMapper.AsString()" @ref="Ref">
+    <CascadingValue Value="@this">
+        @if (!string.IsNullOrEmpty(Label))
         {
-            if (ItemTemplate != null)
+            <label for="@Id">@Label</label>
+        }
+        <input type="hidden" class="radio-buttons" Id="@Id" />
+        @if (Items != null)
+        {
+            foreach (var item in Items)
             {
-                @ItemTemplate(item)
-            }
-            else
-            {
-                <MatRadioButton T="T" Value="@item">@item</MatRadioButton>
+                if (ItemTemplate != null)
+                {
+                    @ItemTemplate(item)
+                }
+                else
+                {
+                    <MatRadioButton T="T" Value="@item">@item</MatRadioButton>
+                }
             }
         }
-    }
-    @ChildContent
-    @if (For != null)
-    {
+        @ChildContent
+    </CascadingValue>
+</div>
+@if (For != null)
+{
+    <div class="mdc-text-field-helper-line">
         <MatValidationMessage Id="@ValidationMessageId" For="@For" ForId="@Id"/>
-    }
-</CascadingValue>
+    </div>
+}
