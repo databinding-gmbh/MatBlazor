@@ -501,6 +501,11 @@
             </summary>
             <typeparam name="TValue">any</typeparam>
         </member>
+        <member name="P:MatBlazor.BaseMatRadioGroupInternal`1.For">
+            <summary>
+                Specifies the field for which validation messages should be displayed.
+            </summary>
+        </member>
         <member name="T:MatBlazor.BaseMatRipple">
             <summary>
             Ripples are visual representations used to communicate the status of a component or interactive element. 

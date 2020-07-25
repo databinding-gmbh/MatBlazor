@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using Microsoft.AspNetCore.Components;
 
 namespace MatBlazor
@@ -20,6 +22,12 @@ namespace MatBlazor
 
         [Parameter]
         public RenderFragment ChildContent { get; set; }
+
+        /// <summary>
+        ///     Specifies the field for which validation messages should be displayed.
+        /// </summary>
+        [Parameter]
+        public Expression<Func<TValue>> For { get; set; }
 
         public void SetCurrentValue(TValue value)
         {
