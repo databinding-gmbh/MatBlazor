@@ -48,4 +48,6 @@ label.mdc-text-field--fullwidth:not(.mdc-text-field--textarea) > span.mdc-floati
   color: var(--mdc-theme-primary, #6200ee);
 }
 
-/* For Select */
+.mdc-text-field-helper-line {
+  display: block !important;
+}
