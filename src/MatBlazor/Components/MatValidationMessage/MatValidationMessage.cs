@@ -87,7 +87,7 @@ namespace MatBlazor
         {
             foreach (var message in CurrentEditContext.GetValidationMessages(_fieldIdentifier))
             {
-                builder.OpenElement(0, "span");
+                builder.OpenElement(0, "p");
                 builder.AddMultipleAttributes(1, AdditionalAttributes);
                 builder.AddAttribute(2, "id", Id);
                 builder.AddAttribute(2, "class", "field-validation-error mdc-text-field-helper-text mdc-text-field-helper-text--persistent mdc-text-field-helper-text--validation-msg");
