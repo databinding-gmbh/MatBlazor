@@ -14,7 +14,7 @@ namespace MatBlazor
     /// <typeparam name="TItem">Type of element type.</typeparam>
     public class BaseMatAutocompleteList<TItem> : BaseMatInputComponent<TItem>
     {
-        [Parameter] public int Debounce { get; set; } = 250;
+        [Parameter] public int Debounce { get; set; } = 500;
 
         protected async void Search(object sender, ElapsedEventArgs e)
         {

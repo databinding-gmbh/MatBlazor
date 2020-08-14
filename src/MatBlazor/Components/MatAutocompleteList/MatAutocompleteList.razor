@@ -15,8 +15,8 @@
                   FullWidth="@FullWidth"
                   OnFocusOut="@ClosePopup"
                   Label="@Label"
-                  Value=@StringValue
-                  OnInput="@OnValueChanging"
+                  @bind-Value=@StringValue
+                  OnInput="@(e => StringValue = e.Value.ToString())" 
                   OnKeyDown="@OnKeyDown"
                   OnKeyUp="@OnKeyUp"
                   Outlined="@Outlined"
@@ -102,11 +102,6 @@
     {
         Func<ItemType, string> customStringSelector = this.StringSelector;
         return (customStringSelector != null ? customStringSelector(obj) : (string)string.Empty);
-    }
-
-    protected void OnValueChanging(ChangeEventArgs args)
-    {
-        StringValue = args.Value as string;
     }
 
     protected async Task OnKeyUp(KeyboardEventArgs args)
