@@ -16,7 +16,7 @@
                   OnFocusOut="@ClosePopup"
                   Label="@Label"
                   @bind-Value=@StringValue
-                  OnInput="@(e => StringValue = e.Value.ToString())" 
+                  OnInput="@(async (ChangeEventArgs e) => await StringValueChanged(e))"
                   OnKeyDown="@OnKeyDown"
                   OnKeyUp="@OnKeyUp"
                   Outlined="@Outlined"
@@ -82,6 +82,9 @@
     public EventCallback<MouseEventArgs> IconOnClick { get; set; }
 
     [Parameter]
+    public EventCallback<string> OnInput { get; set; }
+
+    [Parameter]
     public Expression<Func<ItemType>> For { get; set; }
 
     [Parameter]
@@ -97,11 +100,20 @@
 
     [Parameter]
     public EventCallback<ItemType> OnItemSelect { get; set; }
-    
+
     private string ComputeStringValue(ItemType obj)
     {
         Func<ItemType, string> customStringSelector = this.StringSelector;
         return (customStringSelector != null ? customStringSelector(obj) : (string)string.Empty);
+    }
+
+    public async Task StringValueChanged(ChangeEventArgs e)
+    {
+        StringValue = e.Value.ToString();
+        if (OnInput.HasDelegate)
+        {
+            await OnInput.InvokeAsync(StringValue);
+        }
     }
 
     protected async Task OnKeyUp(KeyboardEventArgs args)
