@@ -99,6 +99,11 @@
             Hides toggle icon for all expansion panel summaries in the accordion
             </summary>
         </member>
+        <member name="P:MatBlazor.BaseMatAccordion.LazyRendering">
+            <summary>
+            Enables lazy rendering for all expansion panel details in the accordion.
+            </summary>
+        </member>
         <member name="T:MatBlazor.BaseMatExpansionPanel">
             <summary>
             MatExpansionPanel provides an expandable details-summary view.
@@ -107,6 +112,11 @@
         <member name="P:MatBlazor.BaseMatExpansionPanel.HideToggle">
             <summary>
             Hides the toggle icon in the expansion panel summary
+            </summary>
+        </member>
+        <member name="P:MatBlazor.BaseMatExpansionPanel.LazyRendering">
+            <summary>
+            Enables lazy rendering of the expansion panel details.
             </summary>
         </member>
         <member name="T:MatBlazor.BaseMatAppBar">
@@ -218,11 +228,13 @@
             Link to a url when clicked.
             </summary>
         </member>
-        <member name="P:MatBlazor.BaseMatButton.Target">
+        <member name="P:MatBlazor.BaseMatButton.ForceLoad">
             <summary>
-            Target of Link when clicked.
+            Force browser to redirect outside component router-space.
             </summary>
+            
         </member>
+        <!-- Badly formed XML comment ignored for member "P:MatBlazor.BaseMatButton.Target" -->
         <member name="P:MatBlazor.BaseMatButton.Raised">
             <summary>
             Button has raised style.
@@ -284,9 +296,56 @@
                 Specifies the field for which validation messages should be displayed.
             </summary>
         </member>
-        <member name="T:MatBlazor.BaseMatChip">
+        <member name="P:MatBlazor.MatChipSet.Choice">
+            <summary>
+            Allows single selection from a set of options. If combined with Filter the selected value can be unselected.
+            </summary>
+        </member>
+        <member name="P:MatBlazor.MatChipSet.Filter">
+            <summary>
+             Enables multiple-choice selection from the set of chips. Chips must be "Checkable" for this to work.
+            </summary>
+        </member>
+        <member name="T:MatBlazor.MatChip">
             <summary>
             Chips are compact elements that allow users to enter information, select a choice, filter content, or trigger an action.
+            </summary>
+        </member>
+        <member name="P:MatBlazor.MatChip.LeadingIcon">
+            <summary>
+            Optional icon, displayed before the label.
+            </summary>
+        </member>
+        <member name="P:MatBlazor.MatChip.TrailingIcon">
+            <summary>
+            A trailing icon comes with the functionality to remove the chip from the set, so the natural value for this would be "clear".
+            </summary>
+        </member>
+        <member name="P:MatBlazor.MatChip.Label">
+            <summary>
+            The chip's text.
+            </summary>
+        </member>
+        <member name="P:MatBlazor.MatChip.Value">
+            <summary>
+            A user-defined value assigned to the chip.
+            </summary>
+        </member>
+        <member name="P:MatBlazor.MatChip.IsSelected">
+             <summary>
+             Reflects the selection state of a choice- or filter-chip (parent chipset has either Choice or Filter set to true).
+            
+             When you set this in markup, it pre-selects the chip.
+             </summary>
+        </member>
+        <member name="P:MatBlazor.MatChip.IsSelectedChanged">
+            <summary>
+            Allows two-way binding of IsSelected
+            </summary>
+        </member>
+        <member name="P:MatBlazor.MatChip.IsCheckable">
+            <summary>
+            Checkable chips show a check-mark when selected
             </summary>
         </member>
         <member name="T:MatBlazor.BaseMatDatePickerInternal`1">
@@ -359,6 +418,12 @@
             <summary>
             Navigate to this url when clicked.
             </summary>
+        </member>
+        <member name="P:MatBlazor.BaseMatIconButton.ForceLoad">
+            <summary>
+            Force browser to redirect outside component router-space.
+            </summary>
+            
         </member>
         <member name="P:MatBlazor.BaseMatIconButton.Disabled">
             <summary>
@@ -437,6 +502,11 @@
              Command executed when the user clicks on an element.
             </summary>
         </member>
+        <member name="P:MatBlazor.BaseMatNavItem.ForceLoad">
+            <summary>
+            Force browser to redirect outside component router-space.
+            </summary>
+        </member>
         <member name="P:MatBlazor.BaseMatNavItem.CommandParameter">
             <summary>
              Command parameter.
@@ -445,6 +515,11 @@
         <member name="P:MatBlazor.BaseMatNavItem.Target">
             <summary>
             *Not yet functional - Target of Href when clicked.
+            </summary>
+        </member>
+        <member name="P:MatBlazor.BaseMatNavItem.Title">
+            <summary>
+            The title shown.
             </summary>
         </member>
         <member name="P:MatBlazor.BaseMatNavItem.NavLinkMatch">
@@ -548,6 +623,34 @@
             Snackbars provide brief messages about app processes at the bottom of the screen.
             </summary>
         </member>
+        <member name="P:MatBlazor.BaseMatSnackbar.Stacked">
+            <summary>
+            Positions the action buttons below the label instead of alongside it.
+            </summary>
+        </member>
+        <member name="P:MatBlazor.BaseMatSnackbar.Leading">
+             <summary>
+             Displays the snackbar on the "leading edge" of the screen (the left side in LTR, or the right side in RTL). 
+            
+             By default, snackbars are centered horizontally within the viewport. On larger screens, they can optionally be displayed on the leading edge by setting this property.
+             </summary>
+        </member>
+        <member name="P:MatBlazor.BaseMatSnackbar.IsOpen">
+            <summary>
+            Controls whether or not the snackbar is shown.
+            </summary>
+        </member>
+        <member name="P:MatBlazor.BaseMatSnackbar.Timeout">
+            <summary>
+            Timeout in ms after which the snackbar closes itself. Default: 10000 ms
+            To leave the snackbar open indefinitely set the timeout to -1
+            </summary>
+        </member>
+        <member name="P:MatBlazor.BaseMatSnackbar.IsOpenChanged">
+            <summary>
+            This event is raised whenever IsOpen changes.
+            </summary>
+        </member>
         <member name="T:MatBlazor.BaseMatSortHeader">
             <summary>
             The MatSortHeader and MatSortHeaderRow are used, respectively, to add sorting state and display to tabular data.
@@ -631,6 +734,11 @@
         <member name="P:MatBlazor.BaseMatTable.PageSize">
             <summary>
             The number of rows per page.
+            </summary>
+        </member>
+        <member name="P:MatBlazor.BaseMatTable.OnRowDbClick">
+            <summary>
+            Action to execute on row item
             </summary>
         </member>
         <member name="T:MatBlazor.BaseTableRow">
@@ -1122,6 +1230,11 @@
         <member name="P:MatBlazor.MatToastOptions.Type">
             <summary>
             The <see cref="P:MatBlazor.MatToastOptions.Type"/>
+            </summary>
+        </member>
+        <member name="P:MatBlazor.MatNavSubMenuHeader.Title">
+            <summary>
+            The title shown.
             </summary>
         </member>
         <member name="P:MatBlazor.MatTable`1.PageSizes">
